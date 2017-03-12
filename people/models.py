@@ -18,16 +18,11 @@ class Person(models.Model):
         db_table = 'people'
 
     def follow(self, *people):
+        people = filter(lambda p: p != self, people)
         self.following.add(*people)
 
     def unfollow(self, *people):
         self.following.remove(*people)
-
-    # def followings(self):
-    #     array_of_followings = []
-    #     for id in self.follow_ids.split():
-    #         array_of_followings.extend(int(id))
-    #     return array_of_followings
 
     def count_following(self):
         return self.following.count()
