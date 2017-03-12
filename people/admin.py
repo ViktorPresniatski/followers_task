@@ -3,11 +3,21 @@ from people.models import Person
 
 # Register your models here.
 
-class PersonInline(admin.StackedInline):
-    model = Person
-    extra = 1
+class FollowingInline(admin.TabularInline):
+    model = Person.following.through
+    fk_name = 'from_person'
+
+
+class FollowersInline(admin.TabularInline):
+    model = Person.following.through
+    fk_name = 'to_person'
+
 
 class PersonAdmin(admin.ModelAdmin):
-    list_display = ['name', 'count_following', 'count_followers']
+    readonly_fields = ('id',)
+    fields = ('id', 'name',)
+    list_display = ('id', 'name', 'count_following', 'count_followers',)
+    inlines = (FollowingInline, FollowersInline,)
+
 
 admin.site.register(Person, PersonAdmin)

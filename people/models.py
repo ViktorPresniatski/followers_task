@@ -5,13 +5,13 @@ from django.db import models
 # Create your models here.
 
 class Person(models.Model):
-    id = models.IntegerField(primary_key=True)  # AutoField?
+    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=32)
-    follow_ids = models.TextField()
     following = models.ManyToManyField(
         'self',
         symmetrical=False,
         related_name='followers',
+        blank=True,
     )
 
     class Meta:
